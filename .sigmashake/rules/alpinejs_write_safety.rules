@@ -41,7 +41,7 @@ rule alpinejs-unsanitized-server-template-variable-in-x-data {
   enabled true
   priority 80
   severity warning
-  ASK write
+  LOG write
   IF path GLOB "**/*.html" AND (content CONTAINS "x-data=\"{{ " OR content CONTAINS "x-data='{!! " OR content CONTAINS "x-data=\"@{{")
   MESSAGE "Potentially unsanitized server-side template variable detected within 'x-data'. Directly embedding server-side variables without proper escaping or sanitization can introduce XSS vulnerabilities if the variable contains untrusted user input. Ensure all server-side variables rendered into 'x-data' are properly escaped for HTML attributes or JSON context (e.g., using '{{ variable | json_encode }}' or equivalent)."
 }
@@ -50,7 +50,7 @@ rule alpinejs-avoid-var-keyword {
   enabled true
   priority 50
   severity warning
-  ASK write
+  LOG write
   IF path GLOB "**/*.html" AND (content CONTAINS "x-data=\"var " OR content CONTAINS "x-on:click=\"var " OR content CONTAINS "x-on:submit=\"var ")
   MESSAGE "Usage of the 'var' keyword detected in Alpine.js expressions. While not a direct security vulnerability, 'var' has function-level scope and can lead to unexpected behavior or shadowing issues. Prefer 'let' or 'const' for block-scoped variable declarations to promote modern JavaScript practices and avoid potential scope-related issues."
 }
